@@ -1,0 +1,66 @@
+style.
+  .bold { font-weight: bold; }
+h1 Edit Recipe
+
+table.table
+  tr
+    td
+      span Recipe &nbsp;
+      input(
+        ng-model="recipe.name"
+        placeholder="Recipe Name")
+  tr(ng-init="reset()")
+    td(ng-show="isStatus('typing')")
+      input(
+        ng-change="split(full_text)"
+        ng-model="full_text"
+        style="width: 200px;"
+        placeholder="ex. PREP 2 red peppers (wash, chop)")
+      button.btn.btn-default(ng-click="changeStatus('typing', 'choosing_verbs')") Done typing sentence
+    
+    td(ng-show="isStatus('choosing_verbs')")
+      span(
+        style="cursor: pointer"
+        ng-click="toggle_verb(word)"
+        ng-class="{ 'bold': is_verb(word) }"
+        ng-repeat="word in split_text")
+        | {{word.text}}
+        | 
+      button.btn.btn-default(ng-click="changeStatus('choosing_verbs', 'choosing_ingredients')") Done choosing verbs
+    
+    td(ng-show="isStatus('choosing_ingredients')")
+      span(
+        style="cursor: pointer"
+        ng-click="toggle_ingredient(word)"
+        ng-class="{ 'bold': is_ingredient(word) }"
+        ng-repeat="word in split_text")
+        | {{word.text}}
+        | 
+      button.btn.btn-default(ng-click="changeStatus('choosing_ingredients', 'choosing_amounts')") Done choosing ingredient
+    
+    td(ng-show="isStatus('choosing_amounts')")
+      span(
+        style="cursor: pointer"
+        ng-click="toggle_amount(word)"
+        ng-class="{ 'bold': is_amount(word) }"
+        ng-repeat="word in split_text")
+        | {{word.text}}
+        | 
+      button.btn.btn-default(ng-click="changeStatus('choosing_amounts', 'ready_to_save')") Done choosing amount
+    
+    td(ng-if="isStatus('ready_to_save')")
+      pre {{getParsedStep()}}
+      button.btn.btn-default(ng-click="add_step()") Done with step
+  tr(ng-repeat="step in recipe.steps")
+    td {{step.verb}} {{step.text}}
+
+button.btn.btn-primary(
+  ng-hide="!id"
+  ng-click="update_recipe()") Update Recipe
+
+button.btn.btn-primary(
+  ng-hide="id || creating"
+  ng-click="create_recipe()") Save Recipe
+button.btn.btn-disabled(
+  ng-show="creating && id"
+  ng-click="create_recipe()") Saving...

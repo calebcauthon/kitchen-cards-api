@@ -1,0 +1,7 @@
+h1 Recipes
+
+table.table
+  tbody
+    tr(ng-repeat="recipe in recipes")
+      td 
+        a(href="/#/edit/{{recipe._id}}") {{recipe.name}}
