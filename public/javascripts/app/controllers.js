@@ -71,7 +71,7 @@ angular.module('controllers', ['ui.router'])
     $scope.recipe.steps.unshift(step);
   };
 
-  $scope.destroy = function(stepToDestroy) {
+  $scope.destroy_step = function(stepToDestroy) {
     $scope.recipe.steps = _.reject($scope.recipe.steps, function(step) {
       return step == stepToDestroy;
     });
