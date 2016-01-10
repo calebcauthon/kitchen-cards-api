@@ -19,6 +19,12 @@ router.get('/recipe/:id', function(req, res) {
   });
 });
 
+router.post('/destroy-recipe/', function(req, res) {
+  recipesDB.destroy(req.body.id).then(function(result) {
+    res.send(result);
+  });
+});
+
 router.post('/create-recipe', function(req, res) {
   recipesDB.create(req.body).then(function(result) {
     res.send({ id: result });

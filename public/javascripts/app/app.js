@@ -1,4 +1,4 @@
-angular.module('recipeApp', ['ui.router', 'controllers'])
+angular.module('recipeApp', ['ui.router', 'controllers', 'directives'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 

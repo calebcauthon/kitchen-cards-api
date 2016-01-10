@@ -9,6 +9,15 @@ table.table
       input(
         ng-model="recipe.name"
         placeholder="Recipe Name")
+      button(
+        class="pull-right btn btn-danger"
+        ng-click="destroy(id)"
+        ng-if="id") Delete
+  tr
+    td(colspan="2")
+      textarea(ng-model="paragraph_text")
+      button(ng-click="parse(paragraph_text)") Parse
+
   tr(ng-init="reset()")
     td(ng-show="isStatus('typing')")
       input(
@@ -51,8 +60,10 @@ table.table
     td(ng-if="isStatus('ready_to_save')")
       pre {{getParsedStep()}}
       button.btn.btn-default(ng-click="add_step()") Done with step
+  
   tr(ng-repeat="step in recipe.steps")
-    td {{step.verb}} {{step.text}}
+    td 
+      editable-step(step='step')
 
 button.btn.btn-primary(
   ng-hide="!id"

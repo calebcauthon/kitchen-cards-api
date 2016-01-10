@@ -1,0 +1,49 @@
+div
+  span(ng-show="isStatus('typing')")
+    input(
+      ng-change="split(full_text)"
+      ng-model="full_text"
+      style="width: 200px;"
+      placeholder="ex. PREP 2 red peppers (wash, chop)")
+    button.btn.btn-default(ng-click="parseSentence(full_text)") Done typing sentence
+  
+  span(ng-show="isStatus('choosing_verbs')")
+    span(
+      style="cursor: pointer"
+      ng-click="toggle_verb(word)"
+      ng-class="{ 'bold': is_verb(word) }"
+      ng-repeat="word in split_text")
+      | {{word.text}}
+      | 
+    button.btn.btn-default(ng-click="changeStatus('choosing_verbs', 'done')") Done choosing verbs
+  
+  span(ng-show="isStatus('choosing_ingredients')")
+    span(
+      style="cursor: pointer"
+      ng-click="toggle_ingredient(word)"
+      ng-class="{ 'bold': is_ingredient(word) }"
+      ng-repeat="word in split_text")
+      | {{word.text}}
+      | 
+    button.btn.btn-default(ng-click="changeStatus('choosing_ingredients', 'done')") Done choosing ingredient
+  
+  span(ng-show="isStatus('choosing_amounts')")
+    span(
+      style="cursor: pointer"
+      ng-click="toggle_amount(word)"
+      ng-class="{ 'bold': is_amount(word) }"
+      ng-repeat="word in split_text")
+      | {{word.text}}
+      | 
+    button.btn.btn-default(ng-click="changeStatus('choosing_amounts', 'done')") Done choosing amount
+  
+  span(ng-if="isStatus('ready_to_save')")
+    pre {{step}}
+    button.btn.btn-default(ng-click="changeStatusTo('done')") Done with step
+  span(ng-if="isStatus('done') && step.text.length")
+    button.btn.btn-default(ng-click="changeStatusTo('choosing_verbs')") Verb
+    button.btn.btn-default(ng-click="changeStatusTo('choosing_ingredients')") Ingredients
+    button.btn.btn-default(ng-click="changeStatusTo('choosing_amounts')") Amount
+    button.btn.btn-default(ng-click="changeStatusTo('typing')") Full Text
+    span {{plain_text(step)}}
+    
