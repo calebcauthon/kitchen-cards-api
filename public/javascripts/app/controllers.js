@@ -16,6 +16,10 @@ angular.module('controllers', ['ui.router'])
     steps: []
   };
 
+  $scope.plain_text = function(step) {
+    return step.text.replace('{{verb}}', step.verb);
+  };
+  
   $scope.destroy = function(id) {
     $http.post('destroy-recipe', { id: id }).then(function() {
       $state.go('list');

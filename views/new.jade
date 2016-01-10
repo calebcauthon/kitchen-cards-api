@@ -4,16 +4,12 @@ h1 Edit Recipe
 
 table.table
   tr
-    td
+    td(colspan="5")
       span Recipe &nbsp;
       input(
         ng-model="recipe.name"
         placeholder="Recipe Name")
-      button(
-        class="pull-right btn btn-danger"
-        ng-click="destroy(id)"
-        ng-if="id") Delete
-  tr
+  tr(ng-if="!id")
     td(colspan="2")
       textarea(ng-model="paragraph_text")
       button(ng-click="parse(paragraph_text)") Parse
@@ -61,9 +57,16 @@ table.table
       pre {{getParsedStep()}}
       button.btn.btn-default(ng-click="add_step()") Done with step
   
-  tr(ng-repeat="step in recipe.steps")
-    td 
-      editable-step(step='step')
+  tr(ng-repeat="step in recipe.steps" ng-init="edit=false")
+    td
+      .pull-left
+        button.btn.btn-xs.btn-primary(ng-click="edit=!edit") 
+          span(ng-show='!edit') Edit
+          span(ng-hide='!edit') Done
+        | &nbsp;&nbsp;&nbsp;
+      .pull-left
+        span(ng-hide='edit') {{plain_text(step)}} 
+        editable-step(step='step' ng-show='edit')
 
 button.btn.btn-primary(
   ng-hide="!id"
@@ -75,3 +78,7 @@ button.btn.btn-primary(
 button.btn.btn-disabled(
   ng-show="creating && id"
   ng-click="create_recipe()") Saving...
+button(
+  class="pull-right btn btn-danger"
+  ng-click="destroy(id)"
+  ng-if="id") Delete
