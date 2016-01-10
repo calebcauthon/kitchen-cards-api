@@ -16,10 +16,16 @@ angular.module('controllers', ['ui.router'])
     steps: []
   };
 
+  $scope.removeOriginal = function(event, draggedElementIndex) {
+    $scope.recipe.steps = _.reject($scope.recipe.steps, function(item, index) {
+      return index == draggedElementIndex;
+    });
+  };
+
   $scope.plain_text = function(step) {
     return step.text.replace('{{verb}}', step.verb);
   };
-  
+
   $scope.destroy = function(id) {
     $http.post('destroy-recipe', { id: id }).then(function() {
       $state.go('list');
@@ -58,6 +64,17 @@ angular.module('controllers', ['ui.router'])
     });
 
     $scope.recipe.steps = $scope.recipe.steps.concat(lines);
+  };
+
+  $scope.addStep = function(text) {
+    var step = $scope.parseLine(text);
+    $scope.recipe.steps.unshift(step);
+  };
+
+  $scope.destroy = function(stepToDestroy) {
+    $scope.recipe.steps = _.reject($scope.recipe.steps, function(step) {
+      return step == stepToDestroy;
+    });
   };
 
   $scope.update_recipe = function() {

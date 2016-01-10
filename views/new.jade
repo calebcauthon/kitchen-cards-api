@@ -57,16 +57,33 @@ table.table
       pre {{getParsedStep()}}
       button.btn.btn-default(ng-click="add_step()") Done with step
   
-  tr(ng-repeat="step in recipe.steps" ng-init="edit=false")
+  tr
     td
-      .pull-left
-        button.btn.btn-xs.btn-primary(ng-click="edit=!edit") 
-          span(ng-show='!edit') Edit
-          span(ng-hide='!edit') Done
-        | &nbsp;&nbsp;&nbsp;
-      .pull-left
-        span(ng-hide='edit') {{plain_text(step)}} 
-        editable-step(step='step' ng-show='edit')
+      button.pull-right.btn-xs.btn.btn-success(
+        style="margin-left: 10px;"
+        ng-click="addStep(new_step); new_step = '';") + Add
+      input.pull-right(ng-model="new_step")
+  tr
+    td
+      ul(dnd-list="recipe.steps")
+        li(
+          style="clear:left; margin-bottom: 10px; list-style-type: none;"
+          ng-init="edit=false"
+          ng-repeat="step in recipe.steps" 
+          dnd-draggable="step"
+          dnd-effect-allowed="copyMove"
+          dnd-moved="removeOriginal(event, $index)")
+          span(
+            dnd-nodrag="true")
+            button.btn.btn-xs.btn-primary(ng-click="edit=!edit") 
+              span(ng-show='!edit') Edit
+              span(ng-hide='!edit') Done
+            | &nbsp;&nbsp;&nbsp;
+            span(ng-hide='edit') {{plain_text(step)}} 
+            editable-step(step='step' ng-show='edit')
+            button.pull-right.btn.btn-danger.btn-xs(ng-click='destroy(step)') Delete
+          span.pull-right.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
+          
 
 button.btn.btn-primary(
   ng-hide="!id"
