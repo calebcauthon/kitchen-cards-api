@@ -22,7 +22,7 @@ table.table
         style="width: 200px;"
         placeholder="ex. PREP 2 red peppers (wash, chop)")
       button.btn.btn-default(ng-click="changeStatus('typing', 'choosing_verbs')") Done typing sentence
-    
+
     td(ng-show="isStatus('choosing_verbs')")
       span(
         style="cursor: pointer"
@@ -30,9 +30,9 @@ table.table
         ng-class="{ 'bold': is_verb(word) }"
         ng-repeat="word in split_text")
         | {{word.text}}
-        | 
+        |
       button.btn.btn-default(ng-click="changeStatus('choosing_verbs', 'choosing_ingredients')") Done choosing verbs
-    
+
     td(ng-show="isStatus('choosing_ingredients')")
       span(
         style="cursor: pointer"
@@ -40,9 +40,9 @@ table.table
         ng-class="{ 'bold': is_ingredient(word) }"
         ng-repeat="word in split_text")
         | {{word.text}}
-        | 
+        |
       button.btn.btn-default(ng-click="changeStatus('choosing_ingredients', 'choosing_amounts')") Done choosing ingredient
-    
+
     td(ng-show="isStatus('choosing_amounts')")
       span(
         style="cursor: pointer"
@@ -50,13 +50,13 @@ table.table
         ng-class="{ 'bold': is_amount(word) }"
         ng-repeat="word in split_text")
         | {{word.text}}
-        | 
+        |
       button.btn.btn-default(ng-click="changeStatus('choosing_amounts', 'ready_to_save')") Done choosing amount
-    
+
     td(ng-if="isStatus('ready_to_save')")
       pre {{getParsedStep()}}
       button.btn.btn-default(ng-click="add_step()") Done with step
-  
+
   tr
     td
       button.pull-right.btn-xs.btn.btn-success(
@@ -69,21 +69,21 @@ table.table
         li(
           style="clear:left; margin-bottom: 10px; list-style-type: none;"
           ng-init="edit=false"
-          ng-repeat="step in recipe.steps" 
+          ng-repeat="step in recipe.steps"
           dnd-draggable="step"
           dnd-effect-allowed="copyMove"
           dnd-moved="removeOriginal(event, $index)")
           span(
             dnd-nodrag="true")
-            button.btn.btn-xs.btn-primary(ng-click="edit=!edit") 
+            button.btn.btn-xs.btn-primary(ng-click="edit=!edit")
               span(ng-show='!edit') Edit
               span(ng-hide='!edit') Done
             | &nbsp;&nbsp;&nbsp;
-            span(ng-hide='edit') {{plain_text(step)}} 
+            span(ng-hide='edit') {{plain_text(step)}}
             editable-step(step='step' ng-show='edit')
             button.pull-right.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
           span.pull-right.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
-          
+
 
 button.btn.btn-primary(
   ng-hide="!id"

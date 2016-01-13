@@ -8,7 +8,7 @@ angular.module('directives', [])
     templateUrl: 'partials/directive-editable-step.html',
     replace: true,
     controller: function($scope) {
-      
+
       $scope.parseSentence = function(text) {
         $scope.changeStatus('typing', 'done');
         angular.merge($scope.step, $scope.parseLine(text));
@@ -17,7 +17,7 @@ angular.module('directives', [])
       $scope.parseLine = function(line) {
         var verb_pattern = /([A-Z\ ]+)\ /;
         var amount_pattern = /([0-9\/]+)/;
-        
+
         var verb_match = line.match(verb_pattern);
         verb = verb_match ? verb_match[1] : '';
 
@@ -28,7 +28,7 @@ angular.module('directives', [])
           text: verb ? line.replace(verb, '{{verb}}') : '',
           verb: verb,
           ingredients: [
-            { 
+            {
               text: line.replace(verb, '').split(' '),
               value: amount
             }
@@ -48,7 +48,7 @@ angular.module('directives', [])
 
       $scope.reset = function() {
         $scope.status = {};
-        
+
         if($scope.step) {
           $scope.full_text = $scope.step.text.replace('{{verb}}', $scope.step.verb);
           $scope.split($scope.full_text);
@@ -82,15 +82,16 @@ angular.module('directives', [])
           };
         });
       };
-      
+
       $scope.is_verb = function(word) {
         return $scope.step.verb.indexOf(word.text) > -1;
       };
 
       $scope.toggle_verb = function(wordToToggle) {
         $scope.step.verb = wordToToggle.text;
+        $scope.updateStep();
       };
-      
+
       $scope.is_ingredient = function(word) {
         if($scope.step.ingredients.length) {
           return _.indexOf($scope.step.ingredients[0].text, word.text) > -1;
@@ -103,35 +104,43 @@ angular.module('directives', [])
           return ($scope.is_ingredient(word) || (word == wordToToggle)) &&
           (!$scope.is_ingredient(word) || !(word == wordToToggle))
         }).pluck('text').value();
+
+        $scope.step.ingredients[0].substance = $scope.step.ingredients[0].text.join(' ');
+        $scope.updateStep();
       };
-      
+
       $scope.is_amount = function(word) {
-        return $scope.step.ingredients[0].value == word.text;
+        if(!$scope.step.amounts)
+          $scope.step.amounts = [];
+
+        if($scope.step.amounts.length) {
+          return _.indexOf($scope.step.amounts, word.text) > -1;
+        } else
+          return false;
       };
 
       $scope.toggle_amount = function(wordToToggle) {
-        $scope.step.ingredients[0].value = wordToToggle.text;
+        $scope.step.amounts = _.chain($scope.split_text).select(function(word) {
+          return ($scope.is_amount(word) || (word == wordToToggle)) &&
+          (!$scope.is_amount(word) || !(word == wordToToggle))
+        }).pluck('text').value();
+
+        $scope.updateStep();
       };
 
-      $scope.getParsedStep = function() {
-        var verb_texts = _.pluck($scope.verbs, 'text').join(' ');
-        var text = $scope.full_text.replace(verb_texts, '{{verb}}');
+      $scope.updateStep = function() {
+        $scope.step.text = _.map($scope.split_text, function(word) {
+          var text = word.text;
 
-        var amounts_text = _.pluck($scope.amounts, 'text').join(' ');
-        var ingredient_text = _.pluck($scope.ingredients, 'text').join(' ').replace(amounts_text, '{{value}}');
+          if($scope.is_verb(word))
+            text = '{{verb}}'
 
-        var step = {
-          text: text,
-          verb: verb_texts,
-          ingredients: [
-            { 
-              text: ingredient_text,
-              value: amounts_text
-            }
-          ]
-        };
+          if($scope.is_amount(word)) {
+            text = '{{amount}}';
+          }
 
-        return step;
+          return text;
+        }).join(' ');
       };
 
       $scope.doneWithStep = function() {
