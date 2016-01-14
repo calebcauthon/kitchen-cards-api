@@ -30,7 +30,6 @@ table.table
         ng-class="{ 'bold': is_verb(word) }"
         ng-repeat="word in split_text")
         | {{word.text}}
-        |
       button.btn.btn-default(ng-click="changeStatus('choosing_verbs', 'choosing_ingredients')") Done choosing verbs
 
     td(ng-show="isStatus('choosing_ingredients')")
@@ -40,7 +39,6 @@ table.table
         ng-class="{ 'bold': is_ingredient(word) }"
         ng-repeat="word in split_text")
         | {{word.text}}
-        |
       button.btn.btn-default(ng-click="changeStatus('choosing_ingredients', 'choosing_amounts')") Done choosing ingredient
 
     td(ng-show="isStatus('choosing_amounts')")
@@ -50,7 +48,6 @@ table.table
         ng-class="{ 'bold': is_amount(word) }"
         ng-repeat="word in split_text")
         | {{word.text}}
-        |
       button.btn.btn-default(ng-click="changeStatus('choosing_amounts', 'ready_to_save')") Done choosing amount
 
     td(ng-if="isStatus('ready_to_save')")
