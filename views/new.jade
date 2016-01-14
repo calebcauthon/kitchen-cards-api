@@ -12,6 +12,13 @@ table.table
       input(
         ng-model="recipe.name"
         placeholder="Recipe Name")
+  tr
+    td(colspan="5")
+      span Makes &nbsp;
+      input(
+        ng-model="recipe.serving_size"
+        placeholder="1")
+      span  servings
   tr(ng-if="!id")
     td(colspan="2")
       textarea(ng-model="paragraph_text")

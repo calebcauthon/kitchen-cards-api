@@ -7,7 +7,8 @@ angular.module('controllers', ['ui.router', 'services'])
     $http.get('recipe/' + $stateParams.id).then(function(response) {
       $scope.recipe = {
         name: response.data.name,
-        steps: response.data.steps
+        steps: response.data.steps,
+        serving_size: response.data.serving_size
       };
 
       $scope.id = response.data._id;
