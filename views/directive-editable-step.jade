@@ -20,25 +20,25 @@ div
     span amount 
     span(
       style="cursor: pointer"
-      ng-click="toggle_amount(word)"
+      ng-click="step_toggle(word, 'amounts')"
       ng-repeat="word in split_text")
-        span(ng-class="{ 'bold': is_amount(word) }"){{word.text}}
+        span(ng-class="{ 'bold': step_has(word, 'amounts') }"){{word.text}}
         | 
   br
   span
     span measurement 
     span(
       style="cursor: pointer"
-      ng-click="toggle_measurement(word)"
+      ng-click="step_toggle(word, 'measurements')"
       ng-repeat="word in split_text")
-        span(ng-class="{ 'bold': is_measurement(word) }") {{word.text}}
+        span(ng-class="{ 'bold': step_has(word, 'measurements') }") {{word.text}}
         | 
   br
   span
     span ingredient 
     span(
       style="cursor: pointer"
-      ng-click="toggle_ingredient(word)"
+      ng-click="step_toggle(word, 'ingredients')"
       ng-repeat="word in split_text")
-        span(ng-class="{ 'bold': is_ingredient(word) }") {{word.text}}
+        span(ng-class="{ 'bold': step_has(word, 'ingredients') }") {{word.text}}
         | 

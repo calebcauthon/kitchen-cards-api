@@ -50,7 +50,7 @@ table.table
               .col-md-8.col-sm-8(dnd-nodrag="true")
                 .row
                   .col-md-6.col-sm-6
-                    span(ng-hide='edit') {{plain_text(step)}}
+                    span(ng-hide='edit') {{step.text}}
                   .col-md-6.col-sm-6
                     span(ng-hide='edit')
                       span {{step.amounts.join(' ')}} 
