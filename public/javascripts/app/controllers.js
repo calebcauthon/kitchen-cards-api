@@ -1,4 +1,4 @@
-angular.module('controllers', ['ui.router', 'services'])
+angular.module('controllers', ['ui.router', 'k-cards-services'])
 
 .controller('EditRecipeCtrl', function($state, $stateParams, $scope, $http, parseLine) {
   $scope.parseLine = parseLine;

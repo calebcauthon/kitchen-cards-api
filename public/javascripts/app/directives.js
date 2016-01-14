@@ -1,4 +1,4 @@
-angular.module('directives', ['services'])
+angular.module('directives', ['k-cards-services'])
 .directive('editableStep', function() {
   return {
     scope: {

@@ -1,4 +1,4 @@
-angular.module('recipeApp', ['ui.router', 'controllers', 'directives', 'services', 'dndLists'])
+angular.module('recipeApp', ['ui.router', 'controllers', 'directives', 'k-cards-services', 'dndLists'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
