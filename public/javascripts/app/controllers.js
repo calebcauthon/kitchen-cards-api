@@ -1,6 +1,8 @@
-angular.module('controllers', ['ui.router'])
+angular.module('controllers', ['ui.router', 'services'])
 
-.controller('EditRecipeCtrl', function($state, $stateParams, $scope, $http) {
+.controller('EditRecipeCtrl', function($state, $stateParams, $scope, $http, parseLine) {
+  $scope.parseLine = parseLine;
+
   if($stateParams.id) {
     $http.get('recipe/' + $stateParams.id).then(function(response) {
       $scope.recipe = {
@@ -30,30 +32,6 @@ angular.module('controllers', ['ui.router'])
     $http.post('destroy-recipe', { id: id }).then(function() {
       $state.go('list');
     });
-  };
-
-  $scope.parseLine = function(line) {
-    var verb_pattern = /([A-Z\ ]+)\ /;
-    var amount_pattern = /([0-9\/]+)/;
-
-    var verb_match = line.match(verb_pattern);
-    verb = verb_match ? verb_match[1] : '';
-
-    var amount_match = line.match(amount_pattern);
-    var amount = amount_match ? amount_match[1] : '';
-
-    var step = {
-      text: verb ? line.replace(verb, '{{verb}}') : '',
-      verb: verb,
-      ingredients: [
-        { 
-          text: line.replace(verb, '').split(' '),
-          value: amount
-        }
-      ]
-    };
-
-    return step;
   };
 
   $scope.parse = function(paragraph) {
