@@ -1,0 +1,22 @@
+{
+  "name": "kitchen-cards-api",
+  "description": "",
+  "main": ["public/javascript/app/services.js"],
+  "authors": [
+    "Caleb Cauthon <calebcauthon@gmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "k-cards-js": "git@github.com:calebcauthon/k-cards-js.git"
+  }
+}
