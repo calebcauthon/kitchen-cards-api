@@ -10,7 +10,7 @@ angular.module('directives', ['services'])
     controller: function($scope, parseLine) {
 
       $scope.parseSentence = function(original_text) {
-        $scope.step = $scope.parseLine(original_text);
+        angular.merge($scope.step, $scope.parseLine(original_text));
       };
 
       $scope.parseLine = parseLine;
@@ -27,7 +27,7 @@ angular.module('directives', ['services'])
         $scope.status = {};
 
         if($scope.step) {
-          $scope.full_text = $scope.step.text.replace('{{verb}}', $scope.step.verb);
+          $scope.full_text = $scope.step.text;
           $scope.split($scope.full_text);
           $scope.changeStatus('typing', 'done');
         } else {
@@ -75,8 +75,6 @@ angular.module('directives', ['services'])
           return ($scope.is_measurement(word) || (word == wordToToggle)) &&
           (!$scope.is_measurement(word) || !(word == wordToToggle))
         }).pluck('text').value();
-
-        $scope.updateStep();
       };
 
       $scope.is_verb = function(word) {
@@ -85,7 +83,6 @@ angular.module('directives', ['services'])
 
       $scope.toggle_verb = function(wordToToggle) {
         $scope.step.verb = wordToToggle.text;
-        $scope.updateStep();
       };
 
       $scope.is_ingredient = function(word) {
@@ -100,8 +97,6 @@ angular.module('directives', ['services'])
           return ($scope.is_ingredient(word) || (word == wordToToggle)) &&
           (!$scope.is_ingredient(word) || !(word == wordToToggle))
         }).pluck('text').value();
-
-        $scope.updateStep();
       };
 
       $scope.is_amount = function(word) {
@@ -119,12 +114,6 @@ angular.module('directives', ['services'])
           return ($scope.is_amount(word) || (word == wordToToggle)) &&
           (!$scope.is_amount(word) || !(word == wordToToggle))
         }).pluck('text').value();
-
-        $scope.updateStep();
-      };
-
-      $scope.updateStep = function() {
-
       };
 
       $scope.doneWithStep = function() {

@@ -9,7 +9,7 @@ angular.module('services', [])
   }
 
   function containsStandardMeasurementWords(words_array) {
-    var standard_words = ['cup', 'tsp', 'tbsp', 'pinch', 'dash', 'oz'];
+    var standard_words = ['can', 'cup', 'tsp', 'tbsp', 'pinch', 'dash', 'oz'];
 
     return _.find(words_array, function(word) {
       return _.find(standard_words, function(standard) {

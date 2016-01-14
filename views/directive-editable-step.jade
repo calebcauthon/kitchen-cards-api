@@ -12,38 +12,33 @@ div
     span(
       style="cursor: pointer"
       ng-click="toggle_verb(word)"
-      ng-class="{ 'bold': is_verb(word) }"
       ng-repeat="word in split_text")
-      | {{word.text}} &nbsp;
+        span(ng-class="{ 'bold': is_verb(word) }") {{word.text}}
+        | 
   br
   span
     span amount 
     span(
       style="cursor: pointer"
       ng-click="toggle_amount(word)"
-      ng-class="{ 'bold': is_amount(word) }"
       ng-repeat="word in split_text")
-      | {{word.text}} &nbsp;
+        span(ng-class="{ 'bold': is_amount(word) }"){{word.text}}
+        | 
   br
   span
     span measurement 
     span(
       style="cursor: pointer"
       ng-click="toggle_measurement(word)"
-      ng-class="{ 'bold': is_measurement(word) }"
       ng-repeat="word in split_text")
-      | {{word.text}} &nbsp;
+        span(ng-class="{ 'bold': is_measurement(word) }") {{word.text}}
+        | 
   br
   span
     span ingredient 
     span(
       style="cursor: pointer"
       ng-click="toggle_ingredient(word)"
-      ng-class="{ 'bold': is_ingredient(word) }"
       ng-repeat="word in split_text")
-      | {{word.text}} &nbsp;
-  br
-
-  br
-  pre
-    span {{step}}
+        span(ng-class="{ 'bold': is_ingredient(word) }") {{word.text}}
+        | 

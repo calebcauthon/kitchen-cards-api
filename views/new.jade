@@ -1,5 +1,8 @@
 style.
   .bold { font-weight: bold; }
+  ul { padding: 0; }
+  li.even { background: #eee; }
+  .container > .row > div { padding: 10px; }
 h1 Edit Recipe
 
 table.table
@@ -14,46 +17,6 @@ table.table
       textarea(ng-model="paragraph_text")
       button(ng-click="parse(paragraph_text)") Parse
 
-  tr(ng-init="reset()")
-    td(ng-show="isStatus('typing')")
-      input(
-        ng-change="split(full_text)"
-        ng-model="full_text"
-        style="width: 200px;"
-        placeholder="ex. PREP 2 red peppers (wash, chop)")
-      button.btn.btn-default(ng-click="changeStatus('typing', 'choosing_verbs')") Done typing sentence
-
-    td(ng-show="isStatus('choosing_verbs')")
-      span(
-        style="cursor: pointer"
-        ng-click="toggle_verb(word)"
-        ng-class="{ 'bold': is_verb(word) }"
-        ng-repeat="word in split_text")
-        | {{word.text}}
-      button.btn.btn-default(ng-click="changeStatus('choosing_verbs', 'choosing_ingredients')") Done choosing verbs
-
-    td(ng-show="isStatus('choosing_ingredients')")
-      span(
-        style="cursor: pointer"
-        ng-click="toggle_ingredient(word)"
-        ng-class="{ 'bold': is_ingredient(word) }"
-        ng-repeat="word in split_text")
-        | {{word.text}}
-      button.btn.btn-default(ng-click="changeStatus('choosing_ingredients', 'choosing_amounts')") Done choosing ingredient
-
-    td(ng-show="isStatus('choosing_amounts')")
-      span(
-        style="cursor: pointer"
-        ng-click="toggle_amount(word)"
-        ng-class="{ 'bold': is_amount(word) }"
-        ng-repeat="word in split_text")
-        | {{word.text}}
-      button.btn.btn-default(ng-click="changeStatus('choosing_amounts', 'ready_to_save')") Done choosing amount
-
-    td(ng-if="isStatus('ready_to_save')")
-      pre {{getParsedStep()}}
-      button.btn.btn-default(ng-click="add_step()") Done with step
-
   tr
     td
       button.pull-right.btn-xs.btn.btn-success(
@@ -65,21 +28,35 @@ table.table
       ul(dnd-list="recipe.steps")
         li(
           style="clear:left; margin-bottom: 10px; list-style-type: none;"
+          ng-class="{ 'even': $even, odd: $odd }"
           ng-init="edit=false"
           ng-repeat="step in recipe.steps"
           dnd-draggable="step"
           dnd-effect-allowed="copyMove"
           dnd-moved="removeOriginal(event, $index)")
-          span(
-            dnd-nodrag="true")
-            button.btn.btn-xs.btn-primary(ng-click="edit=!edit")
-              span(ng-show='!edit') Edit
-              span(ng-hide='!edit') Done
-            | &nbsp;&nbsp;&nbsp;
-            span(ng-hide='edit') {{plain_text(step)}}
-            editable-step(step='step' ng-show='edit')
-            button.pull-right.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
-          span.pull-right.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
+          .container(style="width:100%;")
+            .row
+              .col-md-2.col-sm-2(dnd-nodrag="true")
+                button.btn.btn-xs.btn-primary(ng-click="edit=!edit")
+                  span(ng-show='!edit') Edit
+                  span(ng-hide='!edit') Done
+              .col-md-8.col-sm-8(dnd-nodrag="true")
+                .row
+                  .col-md-6.col-sm-6
+                    span(ng-hide='edit') {{plain_text(step)}}
+                  .col-md-6.col-sm-6
+                    span(ng-hide='edit')
+                      span {{step.amounts.join(' ')}} 
+                      span.bold {{step.measurements.join(' ')}} 
+                      span {{step.ingredients.join(' ')}}
+                  .col-md-12.col-sm-12
+                    editable-step(step='step' ng-show='edit')
+              .col-md-2.col-sm-2
+                .row
+                  .col-md-6.col-sm-6(dnd-nodrag="true")
+                    button.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
+                  .col-md-6.col-sm-6
+                    span.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
 
 
 button.btn.btn-primary(

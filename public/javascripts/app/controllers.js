@@ -68,7 +68,7 @@ angular.module('controllers', ['ui.router', 'services'])
 
   $scope.create_recipe = function() {
     $scope.creating = true;
-    
+
     $http.post('/create-recipe', $scope.recipe).then(function(response) {
       $scope.creating = false;
       $scope.id = response.data.id;
@@ -77,7 +77,6 @@ angular.module('controllers', ['ui.router', 'services'])
     });
   };
 
-  
 
   $scope.add_step = function() {
     $scope.recipe.steps.push($scope.getParsedStep());
