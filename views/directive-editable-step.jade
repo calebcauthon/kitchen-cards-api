@@ -1,13 +1,12 @@
-div
-  span
+.row
+  .col-md-5.col-sm-5
     input(
       ng-change="split(full_text)"
       ng-model="full_text"
       style="width: 200px;"
       placeholder="ex. PREP 2 red peppers (wash, chop)")
     button.btn.btn-default(ng-click="parseSentence(full_text)") Parse
-  br
-  span
+    br
     span verb 
     span(
       style="cursor: pointer"
@@ -15,35 +14,34 @@ div
       ng-repeat="word in split_text")
         span(ng-class="{ 'bold': is_verb(word) }") {{word.text}}
         | 
-  br
-  span
-    span amount 
-    span(
-      style="cursor: pointer"
-      ng-click="step_toggle(word, 'amounts')"
-      ng-repeat="word in split_text")
-        span(ng-class="{ 'bold': step_has(word, 'amounts') }"){{word.text}}
-        | 
-  br
-  span
-    span measurement 
-    span(
-      style="cursor: pointer"
-      ng-click="step_toggle(word, 'measurements')"
-      ng-repeat="word in split_text")
-        span(ng-class="{ 'bold': step_has(word, 'measurements') }") {{word.text}}
-        | 
-  br
-  span
-    span ingredient 
-    span(
-      style="cursor: pointer"
-      ng-click="step_toggle(word, 'ingredients')"
-      ng-repeat="word in split_text")
-        span(ng-class="{ 'bold': step_has(word, 'ingredients') }") {{word.text}}
-        | 
-  br
-  span
+  .col-md-5.col-sm-5
+    span
+      span amount 
+      span(
+        style="cursor: pointer"
+        ng-click="step_toggle(word, 'amounts')"
+        ng-repeat="word in split_text")
+          span(ng-class="{ 'bold': step_has(word, 'amounts') }"){{word.text}}
+          | 
+    br
+    span
+      span measurement 
+      span(
+        style="cursor: pointer"
+        ng-click="step_toggle(word, 'measurements')"
+        ng-repeat="word in split_text")
+          span(ng-class="{ 'bold': step_has(word, 'measurements') }") {{word.text}}
+          | 
+    br
+    span
+      span ingredient 
+      span(
+        style="cursor: pointer"
+        ng-click="step_toggle(word, 'ingredients')"
+        ng-repeat="word in split_text")
+          span(ng-class="{ 'bold': step_has(word, 'ingredients') }") {{word.text}}
+          | 
+  .col-md-2.col-sm-2
     span food group 
     input(
       ng-init="new_category=step.ingredient_category"

@@ -36,8 +36,8 @@ table.table
         li
           .container(style="width:100%;")
             .row
-              .col-md-1.col-sm-1(dnd-nodrag="true") &nbsp;
-              .col-md-11.col-sm-11(dnd-nodrag="true")
+              .col-md-2.col-sm-2(dnd-nodrag="true") &nbsp;
+              .col-md-10.col-sm-10(dnd-nodrag="true")
                 .row
                   .col-md-6.col-sm-6.bold Step
                   .col-md-4.col-sm-4.bold Ingredient
@@ -60,12 +60,22 @@ table.table
           dnd-effect-allowed="copyMove"
           dnd-moved="removeOriginal(event, $index)")
           .container(style="width:100%;")
-            .row
-              .col-md-1.col-sm-1(dnd-nodrag="true")
-                button.btn.btn-xs.btn-primary(ng-click="edit=!edit")
+            .row(ng-init="move=false")
+              .col-md-2.col-sm-2(ng-show="move")
+                button.fa.fa-reorder(ng-click="move=!move") Drag Me
+
+              .col-md-2.col-sm-2(
+                ng-hide="move"
+                dnd-nodrag="true")
+                button.btn.btn-xs.btn-primary(
+                  ng-click="move=!move") Move
+                | 
+                button.btn.btn-xs.btn-primary(
+                  ng-show="!move"
+                  ng-click="edit=!edit")
                   span(ng-show='!edit') Edit
                   span(ng-hide='!edit') Done
-              .col-md-11.col-sm-11(dnd-nodrag="true")
+              .col-md-10.col-sm-10(dnd-nodrag="true")
                 .row
                   .col-md-6.col-sm-6
                     span(ng-hide='edit') {{step.text}}
@@ -79,12 +89,6 @@ table.table
                       span(ng-show="step.ingredient_category") {{step.ingredient_category}}
                   .col-md-12.col-sm-12
                     editable-step(step='step' ng-show='edit')
-              .col-md-2.col-sm-2
-                .row(ng-hide="true")
-                  .col-md-4.col-sm-4(dnd-nodrag="true")
-                    button.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
-                  .col-md-4.col-sm-4
-                    span.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
 
 
 button.btn.btn-primary(
