@@ -31,7 +31,10 @@ angular.module('k-cards-services', [])
     var measurements = amounts.length ? [wordAfter(amounts[0], line)] : [];
     measurements = containsStandardMeasurementWords(measurements) ? measurements : [];
 
-    var ingredients = measurements.length ? [wordAfter(measurements[0], line)] : [wordAfter(amounts[0], line)];
+    if(amounts.length)
+      var ingredients = measurements.length ? [wordAfter(measurements[0], line)] : [wordAfter(amounts[0], line)];
+    else
+      var ingredients = [];
 
     var step = {
       text: line,
