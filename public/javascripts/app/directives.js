@@ -9,9 +9,15 @@ angular.module('directives', ['k-cards-services'])
     replace: true,
     controller: function($scope, parseLine) {
 
+      $scope.setNewIngredientCategory = function(new_category) {
+        $scope.step.ingredient_category = new_category;
+      };
+
       $scope.parseSentence = function(original_text) {
         angular.merge($scope.step, $scope.parseLine(original_text));
       };
+
+      $scope.parseLine = parseLine;
 
       $scope.reset = function() {
         $scope.status = {};

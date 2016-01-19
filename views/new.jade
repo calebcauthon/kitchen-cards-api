@@ -56,13 +56,18 @@ table.table
                       span {{step.amounts.join(' ')}} 
                       span.bold {{step.measurements.join(' ')}} 
                       span {{step.ingredients.join(' ')}}
+                      span(ng-show="step.ingredient_category")
+                        br
+                        {{step.ingredient_category}}
                   .col-md-12.col-sm-12
                     editable-step(step='step' ng-show='edit')
               .col-md-2.col-sm-2
                 .row
-                  .col-md-6.col-sm-6(dnd-nodrag="true")
+                  .col-md-4.col-sm-4(dnd-nodrag="true")
+                    .button.btn.btn-success.btn-xs(ng-click='refresh_ingredient_category(step)') Ing
+                  .col-md-4.col-sm-4(dnd-nodrag="true")
                     button.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
-                  .col-md-6.col-sm-6
+                  .col-md-4.col-sm-4
                     span.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
 
 
