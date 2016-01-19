@@ -33,9 +33,27 @@ table.table
   tr
     td
       ul(dnd-list="recipe.steps")
+        li
+          .container(style="width:100%;")
+            .row
+              .col-md-1.col-sm-1(dnd-nodrag="true") &nbsp;
+              .col-md-11.col-sm-11(dnd-nodrag="true")
+                .row
+                  .col-md-6.col-sm-6.bold Step
+                  .col-md-4.col-sm-4.bold Ingredient
+                  .col-md-2.col-sm-2.bold Food Group
+                  .col-md-12.col-sm-12
+                    editable-step(step='step' ng-show='edit')
+              .col-md-2.col-sm-2
+                .row(ng-hide="true")
+                  .col-md-4.col-sm-4(dnd-nodrag="true")
+                    .button.btn.btn-success.btn-xs(ng-click='refresh_ingredient_category(step)') Ing
+                  .col-md-4.col-sm-4(dnd-nodrag="true")
+                    button.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
+                  .col-md-4.col-sm-4
+                    span.fa.fa-reorder(style="cursor: move; margin-right: 30px;")
         li(
-          style="clear:left; margin-bottom: 10px; list-style-type: none;"
-          ng-class="{ 'even': $even, odd: $odd }"
+          style="border-bottom: 1px solid black; clear:left; margin-bottom: 10px; list-style-type: none;"
           ng-init="edit=false"
           ng-repeat="step in recipe.steps"
           dnd-draggable="step"
@@ -43,28 +61,26 @@ table.table
           dnd-moved="removeOriginal(event, $index)")
           .container(style="width:100%;")
             .row
-              .col-md-2.col-sm-2(dnd-nodrag="true")
+              .col-md-1.col-sm-1(dnd-nodrag="true")
                 button.btn.btn-xs.btn-primary(ng-click="edit=!edit")
                   span(ng-show='!edit') Edit
                   span(ng-hide='!edit') Done
-              .col-md-8.col-sm-8(dnd-nodrag="true")
+              .col-md-11.col-sm-11(dnd-nodrag="true")
                 .row
                   .col-md-6.col-sm-6
                     span(ng-hide='edit') {{step.text}}
-                  .col-md-6.col-sm-6
+                  .col-md-4.col-sm-4
                     span(ng-hide='edit')
                       span {{step.amounts.join(' ')}} 
                       span.bold {{step.measurements.join(' ')}} 
                       span {{step.ingredients.join(' ')}}
-                      span(ng-show="step.ingredient_category")
-                        br
-                        {{step.ingredient_category}}
+                  .col-md-2.col-sm-2
+                    span(ng-hide='edit')
+                      span(ng-show="step.ingredient_category") {{step.ingredient_category}}
                   .col-md-12.col-sm-12
                     editable-step(step='step' ng-show='edit')
               .col-md-2.col-sm-2
-                .row
-                  .col-md-4.col-sm-4(dnd-nodrag="true")
-                    .button.btn.btn-success.btn-xs(ng-click='refresh_ingredient_category(step)') Ing
+                .row(ng-hide="true")
                   .col-md-4.col-sm-4(dnd-nodrag="true")
                     button.btn.btn-danger.btn-xs(ng-click='destroy_step(step)') Delete
                   .col-md-4.col-sm-4

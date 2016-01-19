@@ -19,14 +19,6 @@ angular.module('controllers', ['ui.router', 'k-cards-services'])
     steps: []
   };
 
-  $scope.refresh_ingredient_category = function(step) {
-    var ingredient_text = step.ingredients.join(' ');
-
-    $http.post('/ingredient-category-lookup', { food: ingredient_text }).then(function(response) {
-      step.ingredient_category = response.data;
-    });
-  };
-
   $scope.removeOriginal = function(event, draggedElementIndex) {
     $scope.recipe.steps = _.reject($scope.recipe.steps, function(item, index) {
       return index == draggedElementIndex;

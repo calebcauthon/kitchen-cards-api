@@ -1,5 +1,5 @@
 angular.module('directives', ['k-cards-services'])
-.directive('editableStep', function() {
+.directive('editableStep', function($http) {
   return {
     scope: {
       step: '=',
@@ -8,6 +8,15 @@ angular.module('directives', ['k-cards-services'])
     templateUrl: 'partials/directive-editable-step.html',
     replace: true,
     controller: function($scope, parseLine) {
+
+      $scope.refresh_ingredient_category = function() {
+        var ingredient_text = $scope.step.ingredients.join(' ');
+
+        $http.post('/ingredient-category-lookup', { food: ingredient_text }).then(function(response) {
+          $scope.step.ingredient_category = response.data;
+          $scope.new_category = response.data;
+        });
+      };
 
       $scope.setNewIngredientCategory = function(new_category) {
         $scope.step.ingredient_category = new_category;
