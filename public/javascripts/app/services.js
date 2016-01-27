@@ -36,6 +36,10 @@ angular.module('k-cards-services', [])
     else
       var ingredients = [];
 
+    ingredients = _.map(ingredients, function(ingredient) {
+      return ingredient.replace(/[\(\)]/g, '');
+    });
+
     var step = {
       text: line,
       verb: verb,

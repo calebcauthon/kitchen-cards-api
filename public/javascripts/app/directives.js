@@ -54,11 +54,13 @@ angular.module('directives', ['k-cards-services'])
       };
 
       $scope.step_has = function(word, category) {
+        var word_to_search_for = word.text.replace(/[\(\)]/g, '');
+
         if(!$scope.step[category])
           $scope.step[category] = [];
 
         if($scope.step[category].length) {
-          return _.indexOf($scope.step[category], word.text) > -1;
+          return _.indexOf($scope.step[category], word_to_search_for) > -1;
         } else
           return false;
       };
@@ -67,7 +69,9 @@ angular.module('directives', ['k-cards-services'])
         $scope.step[category] = _.chain($scope.split_text).select(function(word) {
           return ($scope.step_has(word, category) || (word == wordToToggle)) &&
           (!$scope.step_has(word, category) || !(word == wordToToggle))
-        }).pluck('text').value();
+        }).pluck('text').map(function(word) {
+          return word.replace(/[\(\)]/g, '');
+        }).value();
       };
 
       $scope.is_verb = function(word) {
