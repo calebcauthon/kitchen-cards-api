@@ -3,6 +3,7 @@ var router = express.Router();
 var usda = require('usda-db-js');
 
 var recipesDB = require('../server/db.js')();
+var groceryListDb = require('../server/db.js')('grocery-lists');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -16,6 +17,24 @@ router.post('/ingredient-category-lookup', function(req, res) {
 
 router.post('/recipes', function(req, res) {
   recipesDB.all().then(function(result) {
+    res.send(result);
+  });
+});
+
+router.post('/get-grocery-lists', function(req, res) {
+  groceryListDb.all().then(function(result) {
+    res.send(result);
+  });
+});
+
+router.post('/save-grocery-list', function(req, res) {
+  groceryListDb.create(req.body).then(function(result) {
+    res.send(result);
+  });
+});
+
+router.post('/destroy-grocery-list', function(req, res) {
+  groceryListDb.destroy(req.body.id).then(function(result) {
     res.send(result);
   });
 });
