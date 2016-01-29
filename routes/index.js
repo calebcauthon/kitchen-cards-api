@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var usda = require('usda-db-js');
+var _ = require('underscore');
 
 var recipesDB = require('../server/db.js')();
 var groceryListDb = require('../server/db.js')('grocery-lists');
@@ -37,8 +38,20 @@ router.post('/update-grocery-list', function(req, res) {
 });
 
 router.post('/save-grocery-list', function(req, res) {
-  groceryListDb.create(req.body).then(function(result) {
-    res.send(result);
+  var name = req.body.name;
+
+  groceryListDb.all().then(function(result) {
+    var duplicate = _.find(result, function(list) {
+      return list.name == name;
+    });
+
+    if(duplicate) {
+      res.send(duplicate);
+    } else {
+      groceryListDb.create(req.body).then(function(result) {
+        res.send(result);
+      });
+    }
   });
 });
 
