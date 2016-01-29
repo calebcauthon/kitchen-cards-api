@@ -27,6 +27,15 @@ router.post('/get-grocery-lists', function(req, res) {
   });
 });
 
+router.post('/update-grocery-list', function(req, res) {
+  groceryListDb.update(req.body.id, {
+    name: req.body.name,
+    list: req.body.list
+  }).then(function(result) {
+    res.send(result);
+  });
+});
+
 router.post('/save-grocery-list', function(req, res) {
   groceryListDb.create(req.body).then(function(result) {
     res.send(result);
